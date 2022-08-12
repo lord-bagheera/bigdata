@@ -94,6 +94,7 @@ services:
       container_name: spark-history-server
       depends_on:
         - spark-master
+        - resourcemanager
       ports:
         - "18081:18081"
       env_file:
