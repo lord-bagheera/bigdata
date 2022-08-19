@@ -12,9 +12,6 @@ services:
     environment:
       - "SINGLE_USER_CREDENTIALS_USERNAME=root"
       - "SINGLE_USER_CREDENTIALS_PASSWORD=ThisIsUnS3cur3P4ssw0rd"
-    #  - "NIFI_WEB_PROXY_HOST=iroh, IROH, iroh:8443, IROH:8443"
-    #env_file:
-    #  - ./hadoop.env
     networks:
       - main
 
@@ -94,7 +91,6 @@ services:
       container_name: spark-history-server
       depends_on:
         - spark-master
-        - resourcemanager
       ports:
         - "18081:18081"
       env_file:
@@ -156,10 +152,7 @@ services:
     ports:
       - 8088:8088
     depends_on: 
-      - spark-master
       - namenode
-      - datanode-1
-      - datanode-2
     env_file:
       - ./hadoop.env
     volumes:
@@ -175,7 +168,6 @@ services:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
     container_name: nodemanager
     depends_on: 
-      - namenode
       - resourcemanager
     env_file:
       - ./hadoop.env
@@ -198,6 +190,7 @@ services:
       - "3306:3306"
     environment:
      - MYSQL_ROOT_PASSWORD=defaults
+     - MYSQL_ROOT_HOST=%
     networks:
       - main
 
@@ -226,25 +219,6 @@ services:
       - "USERS=user|defaults"
     networks:
       - main
-
-#  hadoop-history:
-#    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
-#    container_name: hadoop-history-server
-#    depends_on: 
-#      - namenode
-#      - datanode-1
-#      - datanode-2
-#      - resourcemanager
-#    ports:
-#      - 8188:8188 # UI
-#    #environment:
-#    #  SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
-#    volumes:
-#      - ./hadoop_historyserver:/hadoop/yarn/timeline
-#    env_file:
-#      - ./hadoop.env
-#    networks:
-#      - main
 
 networks:
   main:
