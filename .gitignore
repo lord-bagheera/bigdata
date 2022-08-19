@@ -28,6 +28,6 @@ spark-client/sbt-1.7.1.tgz
 spark-client/spark-3.3.0-bin-hadoop3.tgz
 namenode/
 datanode-1/
-datanode-1/
+datanode-2/
 hadoop_historyserver/
 shared/
